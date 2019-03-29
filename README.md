@@ -1,2 +1,2 @@
 # spool
-pre-alloc memory for performance or security
+thread safe memory  pool for performance or security

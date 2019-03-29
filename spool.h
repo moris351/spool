@@ -17,6 +17,7 @@ typedef struct
 	ulong psize;
 	int *blocks;
 	ulong bsize;
+	ulong apos;
 }spool_t;
 
 int sinit(ulong psize,ulong bsize);

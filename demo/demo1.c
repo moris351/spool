@@ -58,7 +58,7 @@ int main()
 			puts("salloc failed!");
 			return 0;
 		}
-		if( i%3 == 0 )
+		if( i%2 == 0 )
 			sfree(p);
 	}
 

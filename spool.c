@@ -19,13 +19,13 @@ int sinit(ulong psize,ulong bsize)
 	spool.bsize = bsize == 0 ? BLOCK_SIZE: bsize;
 
 	spool.pool = malloc(spool.psize*spool.bsize);
-	if( spool.pool  == 0 )
+	if( spool.pool  == NULL )
 	{
 		return 0;
 	}
 
 	spool.blocks = malloc(sizeof(int)*spool.psize);
-	if( spool.blocks == 0 )
+	if( spool.blocks == NULL )
 	{
 		return 0;
 	}

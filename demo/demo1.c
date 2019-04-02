@@ -34,16 +34,18 @@ int main()
 {
 	TIME_USED_PRE
 	TIME_USED_START
-	int ret = sinit(100000,256);
+	void* head = sinit(100000,256);
 	TIME_USED_END("sinit")
 
-	if( ret == 0 )
+	if( head == 0 )
 		return 0;
 
 	char * p = NULL;
 
 	TIME_USED_START
 	p = malloc(2000);
+	sfree(p);
+
 	TIME_USED_END("malloc");
 	srand(time(0)); 
 

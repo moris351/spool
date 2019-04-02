@@ -9,10 +9,10 @@ spool_t spool;
 //must call before do anything
 //return 0 if failed
 //return 1 if succeed
-int sinit(ulong psize,ulong bsize)
+void * sinit(ulong psize,ulong bsize)
 {
 	if (pthread_mutex_init(&spool.mutex, NULL) != 0){
-		return 0;
+		return NULL;
 	}
 
 	spool.psize = psize == 0 ? MAX_POOL_SIZE: psize;
@@ -21,13 +21,13 @@ int sinit(ulong psize,ulong bsize)
 	spool.pool = malloc(spool.psize*spool.bsize);
 	if( spool.pool  == NULL )
 	{
-		return 0;
+		return NULL;
 	}
 
 	spool.blocks = malloc(sizeof(int)*spool.psize);
 	if( spool.blocks == NULL )
 	{
-		return 0;
+		return NULL;
 	}
 
 	for(int i=0;i<spool.psize;i++)
@@ -37,8 +37,8 @@ int sinit(ulong psize,ulong bsize)
 
 	spool.apos = 0;
 
-	//printf("sinit OK\n");
-	return 1;
+	printf("sinit OK at %p\n",spool.pool);
+	return spool.pool;
 }
 
 //free the spool
@@ -66,6 +66,12 @@ void sfree(void * p)
 		printf("lock error!\n");
 	}
 	int pos = ((uchar*)p - spool.pool)/spool.bsize;
+	if( pos > spool.psize || pos < 0 )
+	{
+		printf("sfree error, invalid pointer, p = %p, pos = %d\n", p, pos);
+		return ;
+	}
+
 	int ix=pos;
 	while(spool.blocks[ix]==pos && ix<spool.psize)
 	{

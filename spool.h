@@ -1,31 +1,26 @@
 #ifndef __SPOOL_H__
 
 #include <stddef.h>
-#include <stdlib.h>
-#include <pthread.h>
 
-typedef unsigned char uchar;
-typedef unsigned long ulong;
+//init spool
+//psize --- number of blocks
+//bsize --- size of every block
+//must call before do anything
+//return NULL if failed
+//return not NULL if succeed
+void *sinit( size_t psize, size_t bsize );
 
-#define MAX_POOL_SIZE 1024*4000
-#define BLOCK_SIZE 1024
+//free the spool
+//call before end of spool
+void suninit( void );
 
-typedef struct 
-{
-	pthread_mutex_t mutex;
-	uchar * pool;
-	ulong psize;
-	int *blocks;
-	ulong bsize;
-	ulong apos;
-}spool_t;
+//alloc blocks with length of memory
+//return memory pointer if succeed
+//otherwise return NULL
+void *salloc( size_t len );
 
-void * sinit(ulong psize,ulong bsize);
-
-void suninit();
-
-void sfree(void * p);
-
-void * salloc(size_t len);
+//free p
+//free a NULL pointer will do nothing
+void sfree( void *p );
 
 #endif //__SPOOL_H__

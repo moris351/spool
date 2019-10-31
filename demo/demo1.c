@@ -37,7 +37,7 @@ int main()
 {
 	TIME_USED_PRE
 	TIME_USED_START
-	void* head = sinit(100000,256);
+	void* head = sinit(0,100000,256);
 	TIME_USED_END("sinit")
 
 	if( head == 0 )
